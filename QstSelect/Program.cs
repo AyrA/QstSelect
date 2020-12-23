@@ -27,7 +27,7 @@ namespace QstSelect
                     Console.Error.WriteLine("The specified file could not be found");
                     break;
                 case VersionChecker.VersionType.Invalid:
-                    Console.Error.WriteLine("This is not a valid quest game file");
+                    Console.Error.WriteLine("This is neither a quest game file nor a save file");
                     break;
                 case VersionChecker.VersionType.New:
                     Launch(Config.Get("Quest.New"), args[0]);
