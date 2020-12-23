@@ -28,7 +28,7 @@ namespace QstSelect
             {
                 if (L.ToLower().StartsWith(Name.ToLower() + "="))
                 {
-                    return UnsafeVal(L.Substring(Name.Length + 2));
+                    return UnsafeVal(L.Substring(Name.Length + 1));
                 }
             }
             return Default;
