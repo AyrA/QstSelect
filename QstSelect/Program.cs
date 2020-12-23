@@ -43,7 +43,12 @@ namespace QstSelect
 
         private static void Launch(string exe, string game)
         {
-            Process.Start(exe, $"\"{game}\"").Dispose();
+            Process.Start(new ProcessStartInfo()
+            {
+                FileName = exe,
+                Arguments = $"\"{game}\"",
+                WorkingDirectory = Path.GetDirectoryName(exe)
+            }).Dispose();
         }
 
         private static void DebugPause()
