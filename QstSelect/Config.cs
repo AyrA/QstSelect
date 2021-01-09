@@ -14,6 +14,14 @@ namespace QstSelect
 
         private static readonly string _file;
 
+        public static string Filename
+        {
+            get
+            {
+                return _file;
+            }
+        }
+
         static Config()
         {
             using (var P = Process.GetCurrentProcess())
@@ -36,20 +44,27 @@ namespace QstSelect
 
         public static string Set(string Name, string Value)
         {
-            var Lines = GetLines();
-            bool added = false;
-            for (var i = 0; i < Lines.Length; i++)
+            var Lines = GetLines().ToList();
+            if (Value == null)
             {
-                var L = Lines[i];
-                if (L.ToLower().StartsWith(Name.ToLower() + "="))
-                {
-                    Lines[i] = Name + "=" + SafeVal(Value);
-                    added = true;
-                }
+                Lines.RemoveAll(m => m.ToLower().StartsWith(Name.ToLower() + "="));
             }
-            if(!added)
+            else
             {
-                Lines = Lines.Concat(new string[] { Name + "=" + SafeVal(Value) }).ToArray();
+                bool added = false;
+                for (var i = 0; i < Lines.Count; i++)
+                {
+                    var L = Lines[i];
+                    if (L.ToLower().StartsWith(Name.ToLower() + "="))
+                    {
+                        Lines[i] = Name + "=" + SafeVal(Value);
+                        added = true;
+                    }
+                }
+                if (!added)
+                {
+                    Lines.Add(Name + "=" + SafeVal(Value));
+                }
             }
             SetLines(Lines);
             return Value;
